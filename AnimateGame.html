@@ -29,6 +29,7 @@ function handleComplete(evt) {
 	stage = new createjs.Stage(canvas);
 	stage.addChild(exportRoot);
 	stage.update();
+	stage.enableMouseOver();
 
 	createjs.Ticker.setFPS(lib.properties.fps);
 	createjs.Ticker.addEventListener("tick", stage);
