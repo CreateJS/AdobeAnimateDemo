@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>AnimateGame</title>
+
+<script src="js/createjs-2015.05.21.combined.js"></script>
+<script src="js/movieclip-0.8.1.min.js"></script>
+<script src="js/Rnd.js"></script>
+<script src="AnimateGame.js"></script>
+
+<script>
+var c=createjs, canvas, stage, exportRoot;
+var menu, game, obstacles, scoreFld, velY;
+var w, h, nextObstacle, speed, gravity = 1.5, dead, score;
+
+function init() {
+	canvas = document.getElementById("canvas");
+
+	var loader = new c.LoadQueue(false);
+	loader.installPlugin(createjs.Sound);
+	loader.addEventListener("complete", handleComplete);
+	loader.loadManifest(lib.properties.manifest);
+}
+
+function handleComplete(evt) {
+	stage = new c.Stage("canvas");
+	w = canvas.width;
+	h = canvas.height;
+	
+	menu = new lib.Menu();
+	menu.playBtn.on("click", startGame, this);
+	
+	stage.addChild(menu);
+	
+	c.Touch.enable(stage);
+	stage.enableMouseOver();
+	
+	c.Ticker.setFPS(30);
+	c.Ticker.on("tick", tick);
+}
+
+function tick(evt) {
+	if (game) { gameTick(evt); }
+	stage.update(evt);
+}
+
+function startGame() {
+	menu.parent.removeChild(menu);
+	game = new c.Container();
+	velY = 0;
+	speed = 15;
+	score = 0;
+	dead = false;
+	
+	scoreFld = new c.Text("1 MILLION", "72pt Arial");
+	scoreFld.x = 20;
+	scoreFld.y = 20;
+	game.addChild(scoreFld);
+	
+	hero = new lib.Hero();
+	hero.scaleX = hero.scaleY = 0.6;
+	hero.x = 150;
+	hero.y = 60;
+	hero.gotoAndPlay("idle");
+	game.addChild(hero);
+	
+	obstacles = new c.Container();
+	game.addChild(obstacles);
+	
+	nextWall = 0;
+	
+	stage.on("stagemousedown", jump);
+	
+	stage.addChild(game);
+}
+
+function jump() {
+	if (dead) { return; }
+	velY = Math.max(-gravity*15, velY - gravity * 30);
+	hero.gotoAndPlay("jump");
+}
+
+function gameTick(evt) {
+	velY += gravity;
+	hero.y += velY;
+	
+	if (--nextWall < 0) {
+		addObstacle();
+	}
+	
+	for (var i=obstacles.numChildren-1; i>=0; i--) {
+		var obstacle = obstacles.getChildAt(i);
+		obstacle.x -= speed;
+		if (obstacle.x < -100) {
+			obstacles.removeChild(obstacle);
+			setScore(score+10000);
+		}
+	}
+	
+	if (obstacles.getObjectUnderPoint(hero.x, hero.y) && !dead) {
+		dead = true;
+		hero.gotoAndPlay("death");
+	};
+}
+
+function setScore(val) {
+	score = val;
+	scoreFld.text = score;
+}
+
+function addObstacle() {
+	var obstacle = new c.Container();
+	var top = new lib.Wall();
+	var bottom = new lib.Wall();
+	var gapSize = 300;
+	top.y = -308-gapSize/2;
+	bottom.y = -top.y;
+	obstacle.addChild(top, bottom);
+	
+	obstacle.y = h/2+Rnd(-200,200);
+	obstacle.x = w+50;
+	obstacles.addChild(obstacle);
+	
+	nextWall = Rnd.integer(50,100);
+}
+
+function playSound(id, loop) {
+	createjs.Sound.play(id, createjs.Sound.INTERRUPT_EARLY, 0, 0, loop);
+}
+</script>
+</head>
+
+<body onload="init();" style="background-color:#D4D4D4;margin:0px;">
+	<canvas id="canvas" width="1280" height="720" style="background-color:#FFFFFF"></canvas>
+</body>
+</html>
