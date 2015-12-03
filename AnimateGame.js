@@ -53,6 +53,44 @@ lib.properties = {
 p.nominalBounds = new cjs.Rectangle(-66.2,-101.5,132,203.1);
 
 
+(lib.rainbowfart = function(mode,startPosition,loop) {
+	this.initialize(mode,startPosition,loop,{});
+
+	// Layer 1
+	this.shape = new cjs.Shape();
+	this.shape.graphics.f("#3300FF").s().p("AiTEiQgSgIgHgRIgBgEQgEgOAFgSQADgNAMgXIA6hoQAIgRAEgHIAjhBQA0hgAegxQAthFAUgkIAJgQQAGgJAFgFQAIgIAJgDQAHgCAIACIACgCQAJgCAJAIQAIAIABALQABAQgMAYIiKETQgUAsgTAmIg+B2IgQAYQgKAOgMAFQgIAEgJAAQgJAAgJgEg");
+	this.shape.setTransform(22.3,10.9);
+
+	this.shape_1 = new cjs.Shape();
+	this.shape_1.graphics.f("#00CCFF").s().p("AioElQgNgGgGgNQgGgNACgOQABgMAOgWIABgCIABgBIABAAIAAgCIAjgwQAQgVATgfIAig7IAQgbIAZgmIAJgRQAEgMAEgGQAPgaAIgOIANgbQAHgRAGgIQAJgPASgXQAUgaAIgLIAOgZQAIgPAIgJQAPgUARgHIANgDIABAAQAKAAAIAKQAGAJgBAKQgJADgIAIQgFAFgFAJIgKAQQgUAkgtBFQgeAxg1BgIghBBQgFAHgIARIg5BoQgMAXgEANQgFASAEAOIgDADQgLAKgOABIgGAAQgLAAgKgFg");
+	this.shape_1.setTransform(16.2,8.6);
+
+	this.shape_2 = new cjs.Shape();
+	this.shape_2.graphics.f("#0066FF").s().p("AjCEcQgPgKgEgQQgCgIACgKQAEgUASgaQAYgnAigwQAigzASgTQAegeANgQQAFgJAVgqQAMgZAQgZQA4hUBRhQIAQgMIAGgDQAGgCAGAAQALgCAJAKQAJALgBAMIgCAKQgRAHgPATQgIAJgIAPIgOAZQgIAMgUAaQgSAXgJAOQgGAJgHARIgNAbQgIANgRAbQgEAFgEAKIgJASIgZAoIgOAaIgQAWQgjAtgQAcIglBBIAAABIgBAAIgBACIgBABQgVAggYAEIgHAAQgMAAgMgIg");
+	this.shape_2.setTransform(10.4,4.2);
+
+	this.shape_3 = new cjs.Shape();
+	this.shape_3.graphics.f("#009900").s().p("AjVEoQgNgEgIgMQgIgMAAgOQABgMAHgMQAEgHAMgOIBhh7IBKhbIB6ipQAkgxAVgWIAVgUQAZgWAZgMIACABQAmAIAAAWQACAMgMANIAAABIgHADIgPAMQhSBQg4BUQgRAZgNAZQgUAogGAJQgMASgcAeQgSATgjAzQghAwgYAnQgTAagDAUIgGADQgPAKgQAAQgKAAgLgEg");
+	this.shape_3.setTransform(4.7,-0.5);
+
+	this.shape_4 = new cjs.Shape();
+	this.shape_4.graphics.f("#CC0000").s().p("Aj1DwQgTgNgDgUQgFgjAvgsQBshqDNiwQAugnAVgQQAogcAkgMIACADQANgDALAKQAMAKAAANIgBAEQgSAIgUAPQgOAJggAdIgtAqIghAgIgoAmIg5A8QgcAdg6A/Ig3A/IgqAyIgKALQgMAJgLACIgKACQgOAAgOgKg");
+	this.shape_4.setTransform(-13.1,-15.3);
+
+	this.shape_5 = new cjs.Shape();
+	this.shape_5.graphics.f("#FFFF00").s().p("AjjElQgRgOgCgTQgCgcAbgiQAggsAggqIAsg4IAyg+IA3hFIAug4IAignQBDhNAkgjQANgNALgEQAGgCAFAAIACgCQAOADAJAHQAMAJABAMQAAAJgKAPIgSAcIgVAUQgVAWgkAwIh8CnIhIBeIhhB6QgMAOgEAHQgHANgBALQgIAEgHABIgHABQgQAAgOgLg");
+	this.shape_5.setTransform(-2,-4.9);
+
+	this.shape_6 = new cjs.Shape();
+	this.shape_6.graphics.f("#FF6600").s().p("Aj0EMQgKgJgDgPQgDgOAEgOQAFgRAQgTIAKgMIAqgyIA3g+QA6g9AegeIA3g9IAognIAhgfIAtgrQAggcAOgKQAUgOASgIIAPgGIAAABQANAAAJAMQAEAEABAFQgLAEgNANQgkAjhDBNIgiAnIgwA4Ig1BDIgyBAIgsA4QghAmgKAPIgUAcQgMAPgLAJQgOALgRACIgGAAQgOAAgKgIg");
+	this.shape_6.setTransform(-8,-9.5);
+
+	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.shape_6},{t:this.shape_5},{t:this.shape_4},{t:this.shape_3},{t:this.shape_2},{t:this.shape_1},{t:this.shape}]}).wait(1));
+
+}).prototype = p = new cjs.MovieClip();
+p.nominalBounds = new cjs.Rectangle(-40,-40.3,80,80.6);
+
+
 (lib.PlayBtn = function(mode,startPosition,loop) {
 	this.initialize(mode,startPosition,loop,{});
 
@@ -578,6 +616,13 @@ p.nominalBounds = new cjs.Rectangle(-138.7,-133.1,277.5,234.2);
 	this.instance_8.setTransform(-1.5,144,1,1,0,0,0,-1,-20);
 
 	this.timeline.addTween(cjs.Tween.get(this.instance_8).wait(1).to({regY:-19.9,rotation:50.2,x:-23.2,y:129.6},0).to({regX:-0.9,regY:-20,rotation:57.6,x:-26.7,y:126.5},13,cjs.Ease.get(1)).to({regX:-1,regY:-19.9,rotation:50.2,x:-23.2,y:129.6},15,cjs.Ease.get(1)).to({regX:-0.9,rotation:-12.5,x:24.4,y:153.1},1).to({regX:-1,regY:-20.1,rotation:20.8,x:29.8,y:156},4).wait(1).to({rotation:20.8},0).to({regY:-19.9,rotation:50.2,x:-23.2,y:129.6},5).to({regY:-20,rotation:-33.5,x:32.3,y:167.9},1,cjs.Ease.get(1)).wait(1));
+
+	// rainbowfart
+	this.instance_9 = new lib.rainbowfart();
+	this.instance_9.setTransform(-46.1,177.2,0.439,0.402,0,0,0,25.9,-30);
+	this.instance_9._off = true;
+
+	this.timeline.addTween(cjs.Tween.get(this.instance_9).wait(30).to({_off:false},0).to({scaleX:1.26,scaleY:1.37,x:-89.1,y:236.2},4).to({_off:true},1).wait(7));
 
 }).prototype = p = new cjs.MovieClip();
 p.nominalBounds = new cjs.Rectangle(-162.3,-105.1,407.7,321.7);
