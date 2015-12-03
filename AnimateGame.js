@@ -924,7 +924,7 @@ p.nominalBounds = new cjs.Rectangle(-247.4,-177.7,407.7,323.2);
 
 	// trash
 	this.trash = new lib.Trash();
-	this.trash.setTransform(196.4,486.6);
+	this.trash.setTransform(214.4,497.6);
 
 	this.timeline.addTween(cjs.Tween.get(this.trash).wait(1));
 
