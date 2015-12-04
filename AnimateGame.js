@@ -812,10 +812,10 @@ p.nominalBounds = new cjs.Rectangle(-105.4,-327.6,201,657.2);
 	this.timeline.addTween(cjs.Tween.get(this.shape).wait(1));
 
 	// hitbox
-	this.instance = new lib.HitArea();
-	this.instance.setTransform(-2,3.1,0.446,0.655,0,0,0,0.6,2.6);
+	this.hitArea = new lib.HitArea();
+	this.hitArea.setTransform(-2,3.1,0.446,0.655,0,0,0,0.6,2.6);
 
-	this.timeline.addTween(cjs.Tween.get(this.instance).wait(1));
+	this.timeline.addTween(cjs.Tween.get(this.hitArea).wait(1));
 
 }).prototype = p = new cjs.MovieClip();
 p.nominalBounds = new cjs.Rectangle(-61.6,-84.4,119.2,174.8);
