@@ -9,10 +9,12 @@
 <script src="js/Rnd.js"></script>
 <script src="AnimateGame.js"></script>
 
+	<link href='https://fonts.googleapis.com/css?family=Luckiest+Guy' rel='stylesheet' type='text/css'>
+
 <script>
 var c=createjs, canvas, stage, exportRoot;
-var menu, game, obstacles, scoreFld, velY;
-var w, h, nextObstacle, speed, gravity = 1.5, dead, score;
+var menu, game, obstacles, scoreFld, velY, hero;
+var w, h, nextObstacle, baseSpeed=15, gravity, dead, inDash, score, difficulty;
 
 function init() {
 	canvas = document.getElementById("canvas");
@@ -36,6 +38,8 @@ function handleComplete(evt) {
 	c.Touch.enable(stage);
 	stage.enableMouseOver();
 	
+	playSound("demosong");
+	
 	c.Ticker.setFPS(30);
 	c.Ticker.on("tick", tick);
 }
@@ -49,18 +53,19 @@ function startGame() {
 	menu.parent.removeChild(menu);
 	game = new c.Container();
 	velY = 0;
-	speed = 15;
 	score = 0;
+	difficulty = 0;
 	dead = false;
+	gravity = 2;
 	
-	scoreFld = new c.Text("1 MILLION", "72pt Arial");
+	scoreFld = new c.Text("0", "72pt 'Luckiest Guy'");
 	scoreFld.x = 20;
 	scoreFld.y = 20;
 	game.addChild(scoreFld);
 	
 	hero = new lib.Hero();
 	hero.scaleX = hero.scaleY = 0.6;
-	hero.x = 150;
+	hero.x = 250;
 	hero.y = 60;
 	hero.gotoAndPlay("idle");
 	game.addChild(hero);
@@ -68,52 +73,96 @@ function startGame() {
 	obstacles = new c.Container();
 	game.addChild(obstacles);
 	
-	nextWall = 0;
+	nextObstacle = 0;
 	
-	stage.on("stagemousedown", jump);
+	stage.on("stagemousedown", handleClick);
+	
+	window.addEventListener("keydown", handleKey);
 	
 	stage.addChild(game);
 }
 
+function endGame() {
+	game.parent.removeChild(game);
+	game = null;
+	stage.addChild(menu);
+}
+
 function jump() {
-	if (dead) { return; }
-	velY = Math.max(-gravity*15, velY - gravity * 30);
+	if (dead || inDash) { return; }
+	velY = Math.max(-30, velY - 50);
 	hero.gotoAndPlay("jump");
 }
 
+function dash() {
+	if (dead || inDash) { return; }
+	hero.gotoAndPlay("dash");
+	c.Tween.get(hero, {override:true}).to({x:350}, 500);
+	inDash = true;
+}
+
 function gameTick(evt) {
-	velY += gravity;
+	difficulty = Math.sqrt(score)*0.1;
+	var speed = baseSpeed*(difficulty+1);
+	
+	if (inDash) {
+		if (changeWeight(-0.03) === 1) {
+			hero.gotoAndPlay("idle");
+			inDash = false;
+			c.Tween.get(hero, {override:true}).to({x:250}, 500);
+		} else {
+			velY *= 0.9;
+			speed *= 3.5;
+		}
+	}
+	
+	if (!inDash) { velY += gravity; }
 	hero.y += velY;
 	
-	if (--nextWall < 0) {
+	if (--nextObstacle < 0) {
 		addObstacle();
 	}
 	
 	for (var i=obstacles.numChildren-1; i>=0; i--) {
 		var obstacle = obstacles.getChildAt(i);
 		obstacle.x -= speed;
-		if (obstacle.x < -100) {
+		if (obstacle.x < -100 && !dead) {
 			obstacles.removeChild(obstacle);
-			setScore(score+10000);
+			setScore(score+hero.body.body.scaleY);
 		}
 	}
 	
-	if (obstacles.getObjectUnderPoint(hero.x, hero.y) && !dead) {
-		dead = true;
-		hero.gotoAndPlay("death");
-	};
+	var target = obstacles.getObjectUnderPoint(hero.x, hero.y, 1);
+	if (target && !dead) {
+		if (target.trash) {
+			target.parent.removeChild(target);
+			changeWeight(0.2);
+		} else if (!inDash) {
+			dead = true;
+			hero.gotoAndPlay("death");
+			c.Tween.get().wait(3000).call(endGame);
+		}
+	}
+}
+
+function changeWeight(val) {
+	var body = hero.body.body;
+	body.scaleY = Math.max(1,body.scaleY+val);
+	body.scaleX = 1+ (body.scaleY-1)*0.66;
+	gravity = Math.pow(body.scaleY, 1.4)*3;
+	return body.scaleY;
 }
 
 function setScore(val) {
 	score = val;
-	scoreFld.text = score;
+	scoreFld.text = (score|0)*5000;
 }
 
 function addObstacle() {
 	var obstacle = new c.Container();
 	var top = new lib.Wall();
 	var bottom = new lib.Wall();
-	var gapSize = 300;
+	var gapSize = 400 - Math.sqrt(score*50);
 	top.y = -308-gapSize/2;
 	bottom.y = -top.y;
 	obstacle.addChild(top, bottom);
@@ -122,7 +171,32 @@ function addObstacle() {
 	obstacle.x = w+50;
 	obstacles.addChild(obstacle);
 	
-	nextWall = Rnd.integer(50,100);
+	var scoreAdj = Math.min(25,Math.sqrt(score)*0.04);
+	nextObstacle = Rnd.integer(50-scoreAdj,100-scoreAdj*2);
+	
+	var trash = new lib.Trash();
+	trash.gotoAndStop(Rnd(trash.totalFrames)|0);
+	trash.mouseChildren = false;
+	trash.x = obstacle.x + nextObstacle*baseSpeed/2 + Rnd(10*baseSpeed, 20*baseSpeed);
+	trash.y = Rnd(100, h-100);
+	trash.trash = true;
+	obstacles.addChild(trash);
+}
+
+function handleKey(evt) {
+	if (evt.keyCode == 38) {
+		jump();
+	} else if (evt.keyCode == 39) {
+		dash();
+	}
+}
+
+function handleClick(evt) {
+	if (evt.stageX < w/2) {
+		jump();
+	} else {
+		dash();
+	}
 }
 
 function playSound(id, loop) {
