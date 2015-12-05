@@ -38,8 +38,15 @@ lib.properties = {
 
 	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.shape_2},{t:this.shape_1}]}).wait(1));
 
+	// Layer 3
+	this.shape_3 = new cjs.Shape();
+	this.shape_3.graphics.f("rgba(0,51,51,0.247)").s().p("Aj2COQg/gSgqgWQg2gegagrQgPgbAAgUQAAgfAagbQAVgTAigQQBnguCJgKIAAgEQAtAFCLAGQB1AFBFAOQBHAOAuAdQA8AlAUA2QAIAUgFAQQgFAYgoATQhKAphWAYQh1Ajh8AAIgEABQh5AAh4gfg");
+	this.shape_3.setTransform(6.8,200.1);
+
+	this.timeline.addTween(cjs.Tween.get(this.shape_3).wait(1));
+
 }).prototype = p = new cjs.MovieClip();
-p.nominalBounds = new cjs.Rectangle(-66.1,-210.2,136.5,416.7);
+p.nominalBounds = new cjs.Rectangle(-66.1,-210.2,136.5,427.6);
 
 
 (lib.Tail = function(mode,startPosition,loop) {
@@ -1527,40 +1534,40 @@ p.nominalBounds = new cjs.Rectangle(-247.4,-177.7,407.7,323.2);
 
 	// Layer 1
 	this.instance = new lib.Tree();
-	this.instance.setTransform(564.4,164.9,0.433,0.433);
+	this.instance.setTransform(1205.6,164.9,0.433,0.433);
 
 	this.instance_1 = new lib.Tree();
-	this.instance_1.setTransform(282.4,208.9,0.433,0.433);
+	this.instance_1.setTransform(923.5,208.9,0.433,0.433);
 
 	this.instance_2 = new lib.Tree();
-	this.instance_2.setTransform(-403.8,180.9,0.433,0.433);
+	this.instance_2.setTransform(237.4,180.9,0.433,0.433);
 
 	this.instance_3 = new lib.Tree();
-	this.instance_3.setTransform(426.5,-55.2,1,1.339);
+	this.instance_3.setTransform(1067.6,-55.2,1,1.339);
 
 	this.instance_4 = new lib.Tree();
-	this.instance_4.setTransform(210.4,138.8,0.622,0.622,0,0,0,-0.1,0);
+	this.instance_4.setTransform(851.5,138.8,0.622,0.622,0,0,0,-0.1,0);
 
 	this.instance_5 = new lib.Tree();
-	this.instance_5.setTransform(-39.7,18.8,0.874,1.01);
+	this.instance_5.setTransform(601.5,18.8,0.874,1.01);
 
 	this.instance_6 = new lib.Tree();
-	this.instance_6.setTransform(-257.8,146.9,0.433,0.433);
+	this.instance_6.setTransform(383.4,146.9,0.433,0.433);
 
 	this.instance_7 = new lib.Tree();
-	this.instance_7.setTransform(-353.8,64.8,0.622,0.622,0,0,0,-0.1,0);
+	this.instance_7.setTransform(287.4,64.8,0.622,0.622,0,0,0,-0.1,0);
 
 	this.instance_8 = new lib.Tree();
-	this.instance_8.setTransform(-487.8,10.8);
+	this.instance_8.setTransform(153.4,10.8);
 
 	this.shape = new cjs.Shape();
 	this.shape.graphics.f("#7DC88E").s().p("EBjrAPVIgEgEIgjAKMgyJAAAIAAgEIAAgPMiVFgAFIAAgKIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgNIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgFIAPgKQESikE2hVQE3hVE/ACIADAWQF9gfHPBXQEnA4IaCcQJACmEBA3QHVBjF5gNQD9gIE8g+QClghGNhiQFnhYDLgjQE1g2EBAEQDWADD/AsQCwAeEeBEQFgBTBuAXQEFA2DOARQHPAkKXh6QCBgYGvhZQFchIDVghQOMiPOdBtQARgCARAFIAAAMIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAANIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAGQgRgHgPgLg");
-	this.shape.setTransform(0,236.9);
+	this.shape.setTransform(641.2,236.9);
 
 	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.shape},{t:this.instance_8},{t:this.instance_7},{t:this.instance_6},{t:this.instance_5},{t:this.instance_4},{t:this.instance_3},{t:this.instance_2},{t:this.instance_1},{t:this.instance}]}).wait(1));
 
 }).prototype = p = new cjs.MovieClip();
-p.nominalBounds = new cjs.Rectangle(-641.1,-336.8,1282.3,673.6);
+p.nominalBounds = new cjs.Rectangle(0,-336.8,1282.3,673.6);
 
 
 (lib.BackgroundParallax1 = function(mode,startPosition,loop) {
@@ -1568,46 +1575,15 @@ p.nominalBounds = new cjs.Rectangle(-641.1,-336.8,1282.3,673.6);
 
 	// artwork
 	this.instance = new lib.BackgroundParallaxFront();
-	this.instance.setTransform(1279,-237.2);
+	this.instance.setTransform(1280,-336.8);
 
 	this.instance_1 = new lib.BackgroundParallaxFront();
-	this.instance_1.setTransform(-1,-237.2);
+	this.instance_1.setTransform(0,-336.8);
 
-	this.instance_2 = new lib.Tree();
-	this.instance_2.setTransform(563.4,-72.3,0.433,0.433);
-
-	this.instance_3 = new lib.Tree();
-	this.instance_3.setTransform(281.4,-28.4,0.433,0.433);
-
-	this.instance_4 = new lib.Tree();
-	this.instance_4.setTransform(-404.8,-56.4,0.433,0.433);
-
-	this.instance_5 = new lib.Tree();
-	this.instance_5.setTransform(425.5,-292.4,1,1.339);
-
-	this.instance_6 = new lib.Tree();
-	this.instance_6.setTransform(209.4,-98.4,0.622,0.622,0,0,0,-0.1,0);
-
-	this.instance_7 = new lib.Tree();
-	this.instance_7.setTransform(-40.7,-218.5,0.874,1.01);
-
-	this.instance_8 = new lib.Tree();
-	this.instance_8.setTransform(-258.8,-90.4,0.433,0.433);
-
-	this.instance_9 = new lib.Tree();
-	this.instance_9.setTransform(-354.8,-172.4,0.622,0.622,0,0,0,-0.1,0);
-
-	this.instance_10 = new lib.Tree();
-	this.instance_10.setTransform(-488.8,-226.4);
-
-	this.shape = new cjs.Shape();
-	this.shape.graphics.f("#7DC88E").s().p("EBjrAPVIgEgEIgjAKMgyJAAAIAAgEIAAgPMiVFgAFIAAgKIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgNIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgPIAAgFIAPgKQESikE2hVQE3hVE/ACIADAWQF9gfHPBXQEnA4IaCcQJACmEBA3QHVBjF5gNQD9gIE8g+QClghGNhiQFnhYDLgjQE1g2EBAEQDWADD/AsQCwAeEeBEQFgBTBuAXQEFA2DOARQHPAkKXh6QCBgYGvhZQFchIDVghQOMiPOdBtQARgCARAFIAAAMIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAANIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAPIAAAGQgRgHgPgLg");
-	this.shape.setTransform(-1,-0.4);
-
-	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.shape},{t:this.instance_10},{t:this.instance_9},{t:this.instance_8},{t:this.instance_7},{t:this.instance_6},{t:this.instance_5},{t:this.instance_4},{t:this.instance_3},{t:this.instance_2},{t:this.instance_1},{t:this.instance}]}).wait(1));
+	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.instance_1},{t:this.instance}]}).wait(1));
 
 }).prototype = p = new cjs.MovieClip();
-p.nominalBounds = new cjs.Rectangle(-642.1,-574,2562.3,673.6);
+p.nominalBounds = new cjs.Rectangle(0,-673.6,2562.3,673.6);
 
 
 (lib.background = function(mode,startPosition,loop) {
@@ -1615,7 +1591,7 @@ p.nominalBounds = new cjs.Rectangle(-642.1,-574,2562.3,673.6);
 
 	// Layer 2
 	this.backgroundParallax1 = new lib.BackgroundParallax1();
-	this.backgroundParallax1.setTransform(1.1,263.8);
+	this.backgroundParallax1.setTransform(-641,366.1);
 
 	this.timeline.addTween(cjs.Tween.get(this.backgroundParallax1).wait(1));
 
@@ -1625,7 +1601,7 @@ p.nominalBounds = new cjs.Rectangle(-642.1,-574,2562.3,673.6);
 	this.timeline.addTween(cjs.Tween.get(this.sky).wait(1));
 
 }).prototype = p = new cjs.MovieClip();
-p.nominalBounds = new cjs.Rectangle(-641,-360,2562.3,723.4);
+p.nominalBounds = new cjs.Rectangle(-641,-360,2562.3,726.2);
 
 
 // stage content:
@@ -1669,7 +1645,7 @@ p.nominalBounds = new cjs.Rectangle(-641,-360,2562.3,723.4);
 	this.timeline.addTween(cjs.Tween.get(this.background).wait(1));
 
 }).prototype = p = new cjs.MovieClip();
-p.nominalBounds = new cjs.Rectangle(639.1,360,2562.3,723.4);
+p.nominalBounds = new cjs.Rectangle(639.1,360,2562.3,726.2);
 
 })(lib = lib||{}, images = images||{}, createjs = createjs||{}, ss = ss||{});
 var lib, images, createjs, ss;
