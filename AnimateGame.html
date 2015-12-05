@@ -7,8 +7,6 @@
 <script src="https://code.createjs.com/easeljs-0.8.1.min.js"></script>
 <script src="https://code.createjs.com/tweenjs-0.6.1.min.js"></script>
 <script src="https://code.createjs.com/movieclip-0.8.1.min.js"></script>
-<script src="https://code.createjs.com/preloadjs-0.6.1.min.js"></script>
-<script src="https://code.createjs.com/soundjs-0.6.1.min.js"></script>
 <script src="AnimateGame.js"></script>
 
 <script>
@@ -16,14 +14,6 @@ var canvas, stage, exportRoot;
 
 function init() {
 	canvas = document.getElementById("canvas");
-
-	var loader = new createjs.LoadQueue(false);
-	loader.installPlugin(createjs.Sound);
-	loader.addEventListener("complete", handleComplete);
-	loader.loadManifest(lib.properties.manifest);
-}
-
-function handleComplete(evt) {
 	exportRoot = new lib.AnimateGame();
 
 	stage = new createjs.Stage(canvas);
@@ -33,10 +23,6 @@ function handleComplete(evt) {
 
 	createjs.Ticker.setFPS(lib.properties.fps);
 	createjs.Ticker.addEventListener("tick", stage);
-}
-
-function playSound(id, loop) {
-	createjs.Sound.play(id, createjs.Sound.INTERRUPT_EARLY, 0, 0, loop);
 }
 </script>
 </head>

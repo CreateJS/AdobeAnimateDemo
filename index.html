@@ -12,7 +12,7 @@
 
 <script>
 var c=createjs, canvas, stage, exportRoot;
-var menu, game, obstacles, scoreFld, velY, hero, bg1, bg2;
+var menu, game, obstacles, scoreFld, velY, hero, bg1, bg2, wallImg, wallHitArea;
 var w, h, nextObstacle, baseSpeed, gravity, dead, inDash, score, displayScore, difficulty;
 
 // setup:
@@ -39,11 +39,18 @@ function handleComplete(evt) {
 	menu = new lib.Menu();
 	menu.playBtn.on("click", startGame, this);
 	
-	bg1 = new lib.BackgroundParallax1();
-	bg1.y = h+10;
+	bg1 = getTiledBg(new lib.BackgroundParallax1());
+	bg1.y = h;
 	
-	bg2 = new lib.BackgroundParallax2Outer();
+	bg2 = getTiledBg(new lib.BackgroundParallax2());
 	bg2.y = h;
+	
+	// cache our wall image, so it doesn't have to render as vector every time:
+	var wall = new lib.Wall();
+	wall.hitArea.visible = false;
+	wall.cache(0, 0, 190, 640);
+	wallImg = wall.cacheCanvas;
+	wallHitArea = wall.hitArea;
 	
 	var sky = new lib.Sky();
 	sky.y = h;
@@ -61,6 +68,18 @@ function handleComplete(evt) {
 	// input events:
 	window.addEventListener("keydown", handleKey);
 	stage.on("stagemousedown", handleClick);
+}
+
+function getTiledBg(tile) {
+	// pre-render the tile to a cache, then "clone" and offset the cache with a Bitmap:
+	var bg = new c.Container();
+	tile.cache(0, -700, 1280, 700);
+	var bmp = new c.Bitmap(tile.cacheCanvas);
+	document.body.appendChild(tile.cacheCanvas);
+	bmp.x = 1280;
+	bmp.y = -700;
+	bg.addChild(tile, bmp);
+	return bg;
 }
 
 function tick(evt) {
@@ -219,11 +238,13 @@ function addObstacle() {
 	} else if (Rnd.bit(0.7-difficulty*0.3)) {
 		// wall
 		obstacle = new c.Container();
-		var top = new lib.Wall();
-		var bottom = new lib.Wall();
+		var top = new c.Bitmap(wallImg);
+		var bottom = new c.Bitmap(wallImg);
+		top.x = bottom.x = -60;
+		top.hitArea = bottom.hitArea = wallHitArea;
 		var gapSize = Rnd(400-difficulty*200, 500-difficulty*100);
-		top.y = -310-gapSize/2;
-		bottom.y = -top.y;
+		top.y = -620-gapSize/2;
+		bottom.y = gapSize/2;
 		obstacle.addChild(top, bottom);
 	} else {
 		// enemy
@@ -231,7 +252,7 @@ function addObstacle() {
 	}
 	
 	obstacle.y = h/2+Rnd(-200,200);
-	obstacle.x = w+50;
+	obstacle.x = w+60;
 	var dur = Rnd(1500, 5000);
 	c.Tween.get(obstacle, {loop:-1}).to({y:h/2+Rnd(-250,250)}, dur, c.Ease.quadInOut).to({y:obstacle.y}, dur, c.Ease.quadInOut);
 	obstacle.mouseChildren = false;
