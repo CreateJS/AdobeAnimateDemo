@@ -2,27 +2,33 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>AnimateGame</title>
+<title>Trash Dash!!</title>
 
 <script src="js/createjs-2015.05.21.combined.js"></script>
 <script src="js/movieclip-0.8.1.min.js"></script>
 <script src="js/Rnd.js"></script>
 <script src="AnimateGame.js"></script>
-
-	<link href='https://fonts.googleapis.com/css?family=Luckiest+Guy' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Luckiest+Guy' rel='stylesheet' type='text/css'>
 
 <script>
 var c=createjs, canvas, stage, exportRoot;
-var menu, game, obstacles, scoreFld, velY, hero;
-var w, h, nextObstacle, baseSpeed=15, gravity, dead, inDash, score, difficulty;
+var menu, game, obstacles, scoreFld, velY, hero, bg1, bg2;
+var w, h, nextObstacle, baseSpeed, gravity, dead, inDash, score, displayScore, difficulty;
 
+// setup:
 function init() {
 	canvas = document.getElementById("canvas");
 
 	var loader = new c.LoadQueue(false);
 	loader.installPlugin(createjs.Sound);
 	loader.addEventListener("complete", handleComplete);
-	loader.loadManifest(lib.properties.manifest);
+	loader.loadManifest([
+			{src:"sounds/demosong.mp3", id:"demosong"},
+			{src:"sounds/crunch.mp3", id:"crunch"},
+			{src:"sounds/jump.mp3", id:"jump"},
+			{src:"sounds/splat.mp3", id:"splat"},
+			{src:"sounds/woosh.mp3", id:"woosh"}
+		]);
 }
 
 function handleComplete(evt) {
@@ -33,15 +39,28 @@ function handleComplete(evt) {
 	menu = new lib.Menu();
 	menu.playBtn.on("click", startGame, this);
 	
-	stage.addChild(menu);
+	bg1 = new lib.BackgroundParallax1();
+	bg1.y = h+10;
+	
+	bg2 = new lib.BackgroundParallax2Outer();
+	bg2.y = h;
+	
+	var sky = new lib.Sky();
+	sky.y = h;
+	
+	stage.addChild(sky, bg2, bg1,menu);
 	
 	c.Touch.enable(stage);
 	stage.enableMouseOver();
 	
-	playSound("demosong");
+	playSound("demosong", -1);
 	
-	c.Ticker.setFPS(30);
+	c.Ticker.framerate = 30;
 	c.Ticker.on("tick", tick);
+	
+	// input events:
+	window.addEventListener("keydown", handleKey);
+	stage.on("stagemousedown", handleClick);
 }
 
 function tick(evt) {
@@ -49,36 +68,35 @@ function tick(evt) {
 	stage.update(evt);
 }
 
+// game start / end:
 function startGame() {
 	menu.parent.removeChild(menu);
-	game = new c.Container();
+	
+	// starting values:
 	velY = 0;
-	score = 0;
 	difficulty = 0;
 	dead = false;
 	gravity = 2;
+	baseSpeed = 15;
+	displayScore = score = 0;
 	
+	// set up UI:
+	game = new c.Container();
 	scoreFld = new c.Text("0", "72pt 'Luckiest Guy'");
-	scoreFld.x = 20;
-	scoreFld.y = 20;
-	game.addChild(scoreFld);
+	scoreFld.x = 90;
+	scoreFld.y = 60;
 	
 	hero = new lib.Hero();
 	hero.scaleX = hero.scaleY = 0.6;
 	hero.x = 250;
 	hero.y = 60;
+	hero.weight = 0;
 	hero.gotoAndPlay("idle");
-	game.addChild(hero);
 	
 	obstacles = new c.Container();
-	game.addChild(obstacles);
-	
 	nextObstacle = 0;
 	
-	stage.on("stagemousedown", handleClick);
-	
-	window.addEventListener("keydown", handleKey);
-	
+	game.addChild(obstacles, hero, scoreFld);
 	stage.addChild(game);
 }
 
@@ -88,25 +106,38 @@ function endGame() {
 	stage.addChild(menu);
 }
 
+// stuff Marty do:
 function jump() {
 	if (dead || inDash) { return; }
+	playSound("jump");
 	velY = Math.max(-30, velY - 50);
 	hero.gotoAndPlay("jump");
 }
 
 function dash() {
 	if (dead || inDash) { return; }
+	playSound("woosh");
 	hero.gotoAndPlay("dash");
 	c.Tween.get(hero, {override:true}).to({x:350}, 500);
 	inDash = true;
 }
 
+function die() {
+	if (dead) { return; }
+	playSound("splat");
+	inDash = false;
+	dead = true;
+	hero.gotoAndPlay("death");
+	c.Tween.get(this).to({baseSpeed:0},3000).call(endGame);
+	velY = -30;
+}
+
+// game loop:
 function gameTick(evt) {
-	difficulty = Math.sqrt(score)*0.1;
 	var speed = baseSpeed*(difficulty+1);
 	
 	if (inDash) {
-		if (changeWeight(-0.03) === 1) {
+		if (changeWeight(-0.03) === 0) {
 			hero.gotoAndPlay("idle");
 			inDash = false;
 			c.Tween.get(hero, {override:true}).to({x:250}, 500);
@@ -118,8 +149,20 @@ function gameTick(evt) {
 	
 	if (!inDash) { velY += gravity; }
 	hero.y += velY;
+	if (hero.y < -30) {
+		velY = 0;
+		hero.y = -30;
+	} else if (hero.y > h+40) {
+		die();
+	}
 	
-	if (--nextObstacle < 0) {
+	bg1.x -= speed*0.15;
+	if (bg1.x < -1280) { bg1.x += 1280; }
+	
+	bg2.x -= speed*0.07;
+	if (bg2.x < -1280) { bg2.x += 1280; }
+	
+	if ((nextObstacle -= speed) < 0) {
 		addObstacle();
 	}
 	
@@ -128,7 +171,9 @@ function gameTick(evt) {
 		obstacle.x -= speed;
 		if (obstacle.x < -100 && !dead) {
 			obstacles.removeChild(obstacle);
-			setScore(score+hero.body.body.scaleY);
+			c.Tween.removeTweens(obstacle);
+			setScore(score+(100+hero.weight*200|0)*10);
+			difficulty = Math.min(1, difficulty+0.04);
 		}
 	}
 	
@@ -137,61 +182,75 @@ function gameTick(evt) {
 		if (target.trash) {
 			target.parent.removeChild(target);
 			changeWeight(0.2);
+			playSound("crunch");
 		} else if (!inDash) {
-			dead = true;
-			hero.gotoAndPlay("death");
-			c.Tween.get().wait(3000).call(endGame);
+			die();
 		}
 	}
 }
 
+// setters & such:
 function changeWeight(val) {
+	hero.weight = Math.max(0, hero.weight + val);
 	var body = hero.body.body;
-	body.scaleY = Math.max(1,body.scaleY+val);
-	body.scaleX = 1+ (body.scaleY-1)*0.66;
-	gravity = Math.pow(body.scaleY, 1.4)*3;
-	return body.scaleY;
+	body.scaleY = 1+ hero.weight;
+	body.scaleX = 1+ hero.weight * 0.6;
+	gravity = Math.pow(1+hero.weight, 1.4)*3;
+	return hero.weight;
 }
 
 function setScore(val) {
 	score = val;
-	scoreFld.text = (score|0)*5000;
+	c.Tween.get(this).to({displayScore:score}, 600).on("change", function() {
+		scoreFld.text = displayScore|0;
+	});
 }
 
 function addObstacle() {
-	var obstacle = new c.Container();
-	var top = new lib.Wall();
-	var bottom = new lib.Wall();
-	var gapSize = 400 - Math.sqrt(score*50);
-	top.y = -308-gapSize/2;
-	bottom.y = -top.y;
-	obstacle.addChild(top, bottom);
+	var obstacle;
+	nextObstacle = Rnd.integer(700-difficulty*300,1200-difficulty*600);
+	
+	if (Rnd.bit(0.33-difficulty*0.15)) {
+		// trash
+		var obstacle = new lib.Trash();
+		obstacle.gotoAndStop(Rnd(obstacle.totalFrames)|0);
+		obstacle.trash = true;
+		nextObstacle *= 0.5;
+	} else if (Rnd.bit(0.7-difficulty*0.3)) {
+		// wall
+		obstacle = new c.Container();
+		var top = new lib.Wall();
+		var bottom = new lib.Wall();
+		var gapSize = Rnd(400-difficulty*200, 500-difficulty*100);
+		top.y = -310-gapSize/2;
+		bottom.y = -top.y;
+		obstacle.addChild(top, bottom);
+	} else {
+		// enemy
+		obstacle = new lib.Enemy();
+	}
 	
 	obstacle.y = h/2+Rnd(-200,200);
 	obstacle.x = w+50;
+	var dur = Rnd(1500, 5000);
+	c.Tween.get(obstacle, {loop:-1}).to({y:h/2+Rnd(-250,250)}, dur, c.Ease.quadInOut).to({y:obstacle.y}, dur, c.Ease.quadInOut);
+	obstacle.mouseChildren = false;
 	obstacles.addChild(obstacle);
-	
-	var scoreAdj = Math.min(25,Math.sqrt(score)*0.04);
-	nextObstacle = Rnd.integer(50-scoreAdj,100-scoreAdj*2);
-	
-	var trash = new lib.Trash();
-	trash.gotoAndStop(Rnd(trash.totalFrames)|0);
-	trash.mouseChildren = false;
-	trash.x = obstacle.x + nextObstacle*baseSpeed/2 + Rnd(10*baseSpeed, 20*baseSpeed);
-	trash.y = Rnd(100, h-100);
-	trash.trash = true;
-	obstacles.addChild(trash);
 }
 
+// what we do:
 function handleKey(evt) {
 	if (evt.keyCode == 38) {
-		jump();
+		if (game) { jump(); }
+		else { startGame(); }
 	} else if (evt.keyCode == 39) {
 		dash();
 	}
+	evt.preventDefault();
 }
 
 function handleClick(evt) {
+	if (!game) { return; }
 	if (evt.stageX < w/2) {
 		jump();
 	} else {
@@ -206,20 +265,6 @@ function playSound(id, loop) {
 </head>
 
 <body onload="init();" style="background-color:#D4D4D4;margin:0px;">
-	<canvas id="canvas" width="1280" height="720" style="background-color:#FFFFFF"></canvas>
-	<ul>
-		<li>slow on death</li>
-		<li>out of bounds</li>
-		<li>difficulty: frequency, trash, gapSize, speed</li>
-		<li>enemy / trash placement</li>
-		<li>moving obstacles</li>
-		<li>scoring / weight multiplier</li>
-		<li>background</li>
-		<li>menu art</li>
-		<li>sound</li>
-		<li>score reward or tween up?</li>
-		<li>code comments</li>
-		<li>optimize</li>
-	</ul>
+	<canvas id="canvas" width="1280" height="720" style="background-color:#A8F1F2"></canvas>
 </body>
 </html>
