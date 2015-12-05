@@ -5,4 +5,4 @@ All assets except the sounds are licensed under MIT. Sounds are from
 https://freesound.org/
 
 The game is hosted here:
-http://gskinner.com/playpen/AdobeAnimateDemo/
+http://gskinner.com/playpen/AdobeAnimateDemo/index.html
