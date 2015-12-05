@@ -75,7 +75,6 @@ function getTiledBg(tile) {
 	var bg = new c.Container();
 	tile.cache(0, -700, 1280, 700);
 	var bmp = new c.Bitmap(tile.cacheCanvas);
-	document.body.appendChild(tile.cacheCanvas);
 	bmp.x = 1280;
 	bmp.y = -700;
 	bg.addChild(tile, bmp);
