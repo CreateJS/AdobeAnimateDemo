@@ -8,6 +8,7 @@ The game is hosted here:
 http://gskinner.com/playpen/AdobeAnimateDemo/index.html
 
 A recording of the live stream is available in three parts:
+
 1. http://www.twitch.tv/adobe/v/28006412?t=06h53m01s
 2. http://www.twitch.tv/adobe/v/28071871?t=05h04m20s
 3. http://www.twitch.tv/adobe/v/28248339?t=02h55m29s
