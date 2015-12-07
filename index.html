@@ -73,7 +73,7 @@ function handleComplete(evt) {
 function getTiledBg(tile) {
 	// pre-render the tile to a cache, then "clone" and offset the cache with a Bitmap:
 	var bg = new c.Container();
-	tile.cache(0, -700, 1280, 700);
+	tile.cache(0, -700, 1281, 700);
 	var bmp = new c.Bitmap(tile.cacheCanvas);
 	bmp.x = 1280;
 	bmp.y = -700;
