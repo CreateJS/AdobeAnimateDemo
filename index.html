@@ -12,16 +12,28 @@
 
 <script>
 var c=createjs, canvas, stage, exportRoot;
-var menu, game, obstacles, scoreFld, velY, hero, bg1, bg2, wallImg, wallHitArea;
+var menu, game, obstacles, scoreFld, velY, hero, bg1, bg2, wallImg, wallHitArea, loadFld;
 var w, h, nextObstacle, baseSpeed, gravity, dead, inDash, score, displayScore, difficulty;
 
 // setup:
 function init() {
 	canvas = document.getElementById("canvas");
+	stage = new c.Stage("canvas");
+	w = canvas.width;
+	h = canvas.height;
+	
+	// add loding text:
+	loadFld = new c.Text("", "bold 36pt Arial", "#6688CC");
+	loadFld.x = w/2;
+	loadFld.y = h/2;
+	loadFld.textAlign = "center";
+	loadFld.textBaseline = "middle";
+	stage.addChild(loadFld);
 
 	var loader = new c.LoadQueue(false);
 	loader.installPlugin(createjs.Sound);
 	loader.addEventListener("complete", handleComplete);
+	loader.on("progress", handleProgress);
 	loader.loadManifest([
 			{src:"sounds/demosong.mp3", id:"demosong"},
 			{src:"sounds/crunch.mp3", id:"crunch"},
@@ -31,10 +43,14 @@ function init() {
 		]);
 }
 
+// load handlers:
+function handleProgress(evt) {
+	loadFld.text = "Loading... "+(evt.progress*100|0)+"%"
+	stage.update();
+}
+
 function handleComplete(evt) {
-	stage = new c.Stage("canvas");
-	w = canvas.width;
-	h = canvas.height;
+	loadFld.parent.removeChild(loadFld);
 	
 	menu = new lib.Menu();
 	menu.playBtn.on("click", startGame, this);
