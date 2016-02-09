@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>game2</title>
+<!-- write your code here -->
+
+
+<script src="https://code.createjs.com/createjs-2015.11.26.min.js"></script>
+<script src="game2.js"></script>
+<script src="js/Rnd.js"></script>
+<script src="js/Collision.js"></script>
+<script>
+var c = createjs;
+var canvas, stage, w, h, stageRect;
+
+var title, game, hero, score= 0, scoreFld;
+var creatures = [], bubbles = [];
+
+function init() {
+	setup();
+}
+
+function setup() {
+	stage = new createjs.Stage(gameCanvas);
+	canvas = stage.canvas;
+	w = canvas.width;
+	h = canvas.height;
+	stageRect = new c.Rectangle(0,0,w,h);
+	stageRect.pad(40,40,40,40);
+	
+	title = new lib.Title();
+	title.startBtn.on("click", startGame);
+	
+	scoreFld = new c.Text("", "bold 48pt Arial");
+	scoreFld.textAlign = "right";
+	scoreFld.x = w-20;
+	scoreFld.y = 20;
+	
+
+	stage.addChild(title, scoreFld);
+	stage.enableMouseOver();
+	
+	c.Ticker.framerate = 30;
+	c.Ticker.on("tick", tick);
+}
+
+function startGame() {
+	score = 0;
+	title.parent.removeChild(title);
+	
+	game = new c.Container();
+	stage.addChild(game);
+	
+	var bg = new lib.Background();
+	var platform = new lib.Platform();
+	var frontLava = new lib.FrontLava();
+	
+	frontLava.y = h;
+	
+	platform.y = h-100;
+	platform.x = w/2;
+	
+	hero = new lib.Character();
+	hero.x = w/2;
+	hero.y = h-180;
+	
+	hero.stop();
+	
+	game.addChild(bg, frontLava, platform, hero);
+	
+	stage.addEventListener("stagemousedown", onStageClick);
+}
+
+function endGame() {
+	game.parent.removeChild(game);
+	game.addChild(title);
+	game = null;
+	
+	stage.removeEventListener("stagemousedown", onStageClick);
+}
+
+function onStageClick(evt) {
+	// if charged.
+	var dx = evt.stageX-hero.x, dy = evt.stageY-hero.y, a = Math.atan2(dy, dx);
+	var bubble = new lib.Bubble();
+	
+	
+	bubble.set({x:hero.x, y:hero.y, velX:Math.cos(a)*20, velY:Math.sin(a)*20, offset:Rnd(1), radius:30});
+	
+	game.addChild(bubble);
+	bubbles.push(bubble);
+}
+
+function tick(evt) {
+	if (!game) { stage.update(); return; }
+	
+	var i, creature, bubble, platformRadius=130;
+	
+	if (Rnd.bit(0.03)) {
+		addCreature();
+	}
+	
+	// creature loop:
+	for (i=creatures.length-1; i>=0; i--) {
+		creature = creatures[i];
+		creature.x += creature.velX;
+		creature.velY += 0.2;
+		creature.y += creature.velY;
+		
+		if (creature.y >= h) {
+			creatures.splice(i, 1);
+			creature.y = h;
+		} else if (creature.y > h-130 && creature.x > w/2-platformRadius && creature.x < w/2 + platformRadius) {
+			creature.velY *= -0.6;
+			creature.velX += (creature.velX < 0 ? -1 : 1);
+			creature.y = h-130;
+		}
+		
+		if (creature.x < 0 || creature.x > w) {
+			creature.velX *= -1;
+		}
+	}
+	
+	for (i=bubbles.length-1; i>=0; i--) {
+		bubble = bubbles[i];
+		
+		bubble.x += bubble.velX;
+		bubble.y += bubble.velY;
+		
+		if (bubble.creature) {
+			bubble.creature.x = bubble.x;
+			bubble.creature.y = bubble.y;
+			bubble.velX *= 0.9;
+			bubble.velX += Math.sin(bubble.y*0.015+bubble.offset)*(1-bubble.y/h)*Rnd(0,2)
+			bubble.velY -= 2;
+			bubble.velY *= 0.66;
+		}
+		
+		if (!bubble.creature && (creature = Collision.test(bubble, creatures, true))) {
+			bubble.creature = creature;
+			bubble.x = creature.x;
+			bubble.y = creature.y;
+			bubble.gotoAndPlay("bubbled");
+		}
+		
+		if (!stageRect.contains(bubble.x, bubble.y)) {
+			if (bubble.creature) { 
+				addScore(1000);
+				game.removeChild(bubble.creature);
+			}
+			game.removeChild(bubble);
+			bubbles.splice(i, 1);
+		}
+	}
+	
+	stage.update(evt);
+}
+
+function addScore(pts) {
+	score += pts;
+	scoreFld.text = score;
+}
+
+function addCreature() {
+	var creature = new lib.Creature();
+	var x = Rnd(w);
+	creature.set({x:x, y:-20, radius:20, velX:(w/2-x)/w*Rnd(0,20), velY:0, radius:30});
+	
+	game.addChild(creature);
+	creatures.push(creature);
+}
+</script>
+
+<!-- write your code here -->
+
+</head>
+<body onload="init();" style="background-color:#D4D4D4;margin:0px;">
+	<canvas id="gameCanvas" width="1000" height="800" style="background-color:#FFFFFF"></canvas>
+</body>
+</html>
