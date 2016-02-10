@@ -205,6 +205,7 @@ function tick(evt) {
 			if (bubble.creature) { 
 				addScore(1000);
 				heroState("happy");
+				c.Sound.play("creatureSaved");
 				game.removeChild(bubble.creature);
 			}
 			game.removeChild(bubble);
