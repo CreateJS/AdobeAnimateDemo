@@ -9,7 +9,8 @@ lib.properties = {
 	fps: 30,
 	color: "#FFFFFF",
 	manifest: [
-		{src:"sounds/bubblepop.mp3?1455140306599", id:"bubblepop"}
+		{src:"sounds/BubblecanoTheme_01.mp3?1455140953134", id:"BubblecanoTheme_01"},
+		{src:"sounds/bubblepop.mp3?1455140953134", id:"bubblepop"}
 	]
 };
 
@@ -591,7 +592,7 @@ p.nominalBounds = new cjs.Rectangle(619.4,626.4,77.6,55.6);
 
 
 (lib.Character = function(mode,startPosition,loop) {
-	this.initialize(mode,startPosition,loop,{idle:0,shoot:20,sad:27,happy:34,gameover:43});
+	this.initialize(mode,startPosition,loop,{idle:0,shoot:20,sad:27,happy:38,gameover:47});
 
 	// timeline functions:
 	this.frame_19 = function() {
@@ -600,42 +601,42 @@ p.nominalBounds = new cjs.Rectangle(619.4,626.4,77.6,55.6);
 	this.frame_26 = function() {
 		this.gotoAndPlay("idle");
 	}
-	this.frame_33 = function() {
+	this.frame_37 = function() {
 		this.gotoAndPlay("idle");
 	}
-	this.frame_42 = function() {
+	this.frame_46 = function() {
 		this.gotoAndPlay("idle");
 	}
-	this.frame_53 = function() {
-		this.gotoAndPlay("idle");
+	this.frame_64 = function() {
+		this.stop();
 	}
 
 	// actions tween:
-	this.timeline.addTween(cjs.Tween.get(this).wait(19).call(this.frame_19).wait(7).call(this.frame_26).wait(7).call(this.frame_33).wait(9).call(this.frame_42).wait(11).call(this.frame_53).wait(1));
+	this.timeline.addTween(cjs.Tween.get(this).wait(19).call(this.frame_19).wait(7).call(this.frame_26).wait(11).call(this.frame_37).wait(9).call(this.frame_46).wait(18).call(this.frame_64).wait(1));
 
 	// headgraphic
 	this.instance = new lib.HeadAnimate("single",0);
 	this.instance.setTransform(0.4,12.1,1,1,0,0,0,-2,39.1);
 
-	this.timeline.addTween(cjs.Tween.get(this.instance).to({y:17.1},9,cjs.Ease.get(1)).to({y:12.1},10,cjs.Ease.get(1)).wait(1).to({regX:0,regY:0,x:2.4,y:-27,startPosition:1},0).to({scaleX:1.08,scaleY:1.07},2).wait(1).to({scaleX:1,scaleY:1,startPosition:2},0).to({scaleX:0.91},3).wait(1).to({regX:2,regY:38.1,scaleX:1,x:4.4,y:11.1,startPosition:3},0).to({y:14.1},4).to({y:11.1},2).to({regY:36.1,y:9.1,startPosition:4},1).to({rotation:-10.7,x:3.4,y:-3.9},5,cjs.Ease.get(-0.99)).to({rotation:0,x:4.4,y:9.1},3,cjs.Ease.get(-1)).wait(1).to({regX:0,regY:0,x:2.4,y:-27,startPosition:5},0).wait(11));
+	this.timeline.addTween(cjs.Tween.get(this.instance).to({y:17.1},9,cjs.Ease.get(1)).to({y:12.1},10,cjs.Ease.get(1)).wait(1).to({regX:0,regY:0,x:2.4,y:-27,startPosition:1},0).to({scaleX:1.08,scaleY:1.07,y:-25},2).wait(1).to({scaleX:1,scaleY:1,y:-27,startPosition:2},0).to({scaleX:0.91,y:-28},3).wait(1).to({regX:2,regY:38.1,scaleX:1,x:4.4,y:11.1,startPosition:3},0).to({y:14.1},5).to({y:11.1},5).to({regY:36.1,y:9.1,startPosition:4},1).to({regY:36,rotation:-12.9,x:1.4,y:-16},5,cjs.Ease.get(-0.99)).to({regY:36.1,rotation:0,x:4.4,y:9.1},3,cjs.Ease.get(-1)).wait(1).to({regX:0,regY:0,x:2.4,y:-27,startPosition:5},0).wait(18));
 
 	// body
 	this.instance_1 = new lib.Body();
 	this.instance_1.setTransform(-2.3,72.6,1,1,0,0,0,-3,24);
 
-	this.timeline.addTween(cjs.Tween.get(this.instance_1).to({regY:24.1,scaleY:0.98,y:73.3},9,cjs.Ease.get(1)).to({regY:24,scaleY:1,y:72.6},10,cjs.Ease.get(1)).wait(1).to({regX:0,regY:0,x:0.7,y:48.6},0).wait(7).to({regX:-3,regY:13,x:-2.3,y:61.6},0).to({scaleY:0.96,y:63.2},4).to({scaleY:1,y:61.6},2).to({regX:-1,regY:14,x:-0.3,y:62.6},1).to({rotation:-3.7,y:48.6},5,cjs.Ease.get(-0.99)).to({rotation:0,y:62.6},3,cjs.Ease.get(-1)).wait(1).to({regX:0,regY:0,x:0.7,y:48.6},0).wait(11));
+	this.timeline.addTween(cjs.Tween.get(this.instance_1).to({regY:24.1,scaleY:0.98,y:73.3},9,cjs.Ease.get(1)).to({regY:24,scaleY:1,y:72.6},10,cjs.Ease.get(1)).wait(1).to({regX:0,regY:0,x:0.7,y:48.6},0).to({scaleX:1.11},2).to({scaleX:1},4).to({regX:-3,regY:13,x:-2.3,y:61.6},1).to({scaleY:0.96,y:63.2},5).to({scaleY:1,y:61.6},5).to({regX:-1,regY:14,x:-0.3,y:62.6},1).to({regX:-1.1,scaleX:1.01,skewX:-3.7,skewY:-11,x:-0.4,y:32.6},5,cjs.Ease.get(-0.99)).to({regX:-1,scaleX:1,skewX:0,skewY:0,x:-0.3,y:62.6},3,cjs.Ease.get(-1)).wait(1).to({regX:-4,regY:14.1,x:-3.3,y:62.7},0).wait(18));
 
 	// armL
 	this.instance_2 = new lib.LeftArm();
 	this.instance_2.setTransform(-30.3,35.1,1,1,0,0,0,15,11);
 
-	this.timeline.addTween(cjs.Tween.get(this.instance_2).to({regX:14.9,rotation:4.3,x:-30.4},9,cjs.Ease.get(1)).to({regX:15,rotation:0,x:-30.3},10,cjs.Ease.get(1)).wait(1).to({regX:0,regY:0,x:-45.3,y:24.1},0).wait(7).to({regX:20.9,regY:13,x:-24.4,y:37.1},0).to({rotation:14.2},4).to({rotation:0},2).to({regX:16,regY:11,x:-29.3,y:35.1},1).to({rotation:-30.4,x:-26.4,y:23.1},5,cjs.Ease.get(-0.99)).to({rotation:0,x:-29.3,y:35.1},3,cjs.Ease.get(-1)).wait(1).to({regX:0,regY:0,x:-45.3,y:24.1},0).wait(11));
+	this.timeline.addTween(cjs.Tween.get(this.instance_2).to({regX:14.9,rotation:4.3,x:-30.4},9,cjs.Ease.get(1)).to({regX:15,rotation:0,x:-30.3},10,cjs.Ease.get(1)).wait(1).to({regX:14,regY:13,x:-31.3,y:37.1},0).to({rotation:-16.2,y:37.2},2).to({rotation:0,y:37.1},4).to({regX:20.9,x:-24.4},1).to({rotation:14.2},3).to({rotation:0},3).to({rotation:14.2},4).to({regX:16,regY:11,rotation:0,x:-29.3,y:35.1},1).to({rotation:-51.7,x:-15.3,y:11.1},5,cjs.Ease.get(-0.99)).to({rotation:0,x:-29.3,y:35.1},3,cjs.Ease.get(-1)).wait(1).to({regX:15,regY:8,x:-30.3,y:32.1},0).wait(18));
 
 	// armR
 	this.instance_3 = new lib.LeftArm();
 	this.instance_3.setTransform(28.4,31.1,1,1,0,0,180,16,7);
 
-	this.timeline.addTween(cjs.Tween.get(this.instance_3).to({skewX:-6.5,skewY:173.5},9,cjs.Ease.get(1)).to({skewX:0,skewY:180},10,cjs.Ease.get(1)).wait(1).to({regX:0,regY:0,x:44.4,y:24.1},0).wait(7).to({regX:18.9,regY:10,x:26.5,y:29.1},0).to({skewX:-11.7,skewY:168.3},4).to({skewX:0,skewY:180},2).to({regX:16,regY:14,x:28.4,y:38.1},1).to({regX:15.9,scaleX:1.33,scaleY:1.2,skewX:-22.2,skewY:157.8,y:22.2},5,cjs.Ease.get(-0.99)).to({regX:16,scaleX:1,scaleY:1,skewX:0,skewY:180,y:38.1},3,cjs.Ease.get(-1)).wait(1).to({regX:0,regY:0,x:44.4,y:24.1},0).wait(11));
+	this.timeline.addTween(cjs.Tween.get(this.instance_3).to({skewX:-6.5,skewY:173.5},9,cjs.Ease.get(1)).to({skewX:0,skewY:180},10,cjs.Ease.get(1)).wait(1).to({regX:18.9,regY:10,x:25.5,y:34.1},0).to({skewX:20.2,skewY:200.2,x:25.4},2).to({skewX:0,skewY:180,x:25.5},4).to({x:26.5,y:29.1},1).to({skewX:-11.7,skewY:168.3},3).to({skewX:0,skewY:180},3).to({skewX:-11.7,skewY:168.3},4).to({regX:16,regY:14,skewX:0,skewY:180,x:28.4,y:38.1},1).to({regX:15.8,regY:14.1,scaleX:1.36,scaleY:1.2,skewX:-22.2,skewY:146.2,x:28.6,y:10.2},5,cjs.Ease.get(-0.99)).to({regX:16,regY:14,scaleX:1,scaleY:1,skewX:0,skewY:180,x:28.4,y:38.1},3,cjs.Ease.get(-1)).wait(1).to({regX:18.9,regY:6,x:25.5,y:30.1},0).wait(18));
 
 }).prototype = p = new cjs.MovieClip();
 p.nominalBounds = new cjs.Rectangle(-88.1,-73,183.5,174.2);
@@ -740,6 +741,14 @@ p.nominalBounds = new cjs.Rectangle(-148.5,-10.9,305.1,93.5);
 // stage content:
 (lib.game2 = function(mode,startPosition,loop) {
 	this.initialize(mode,startPosition,loop,{});
+
+	// timeline functions:
+	this.frame_0 = function() {
+		playSound("BubblecanoTheme_01");
+	}
+
+	// actions tween:
+	this.timeline.addTween(cjs.Tween.get(this).call(this.frame_0).wait(1));
 
 	// gameover
 	this.instance = new lib.GameOver();
