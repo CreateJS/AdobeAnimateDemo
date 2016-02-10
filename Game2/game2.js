@@ -9,7 +9,7 @@ lib.properties = {
 	fps: 30,
 	color: "#FFFFFF",
 	manifest: [
-		{src:"sounds/bubblepop.mp3?1455139038706", id:"bubblepop"}
+		{src:"sounds/bubblepop.mp3?1455140306599", id:"bubblepop"}
 	]
 };
 
@@ -591,28 +591,51 @@ p.nominalBounds = new cjs.Rectangle(619.4,626.4,77.6,55.6);
 
 
 (lib.Character = function(mode,startPosition,loop) {
-	this.initialize(mode,startPosition,loop,{idle:0,charge:1,shoot:2,sad:3,happy:4,gameover:5});
+	this.initialize(mode,startPosition,loop,{idle:0,shoot:20,sad:27,happy:34,gameover:43});
+
+	// timeline functions:
+	this.frame_19 = function() {
+		this.gotoAndPlay("idle");
+	}
+	this.frame_26 = function() {
+		this.gotoAndPlay("idle");
+	}
+	this.frame_33 = function() {
+		this.gotoAndPlay("idle");
+	}
+	this.frame_42 = function() {
+		this.gotoAndPlay("idle");
+	}
+	this.frame_53 = function() {
+		this.gotoAndPlay("idle");
+	}
+
+	// actions tween:
+	this.timeline.addTween(cjs.Tween.get(this).wait(19).call(this.frame_19).wait(7).call(this.frame_26).wait(7).call(this.frame_33).wait(9).call(this.frame_42).wait(11).call(this.frame_53).wait(1));
 
 	// headgraphic
 	this.instance = new lib.HeadAnimate("single",0);
-	this.instance.setTransform(2.4,-27);
+	this.instance.setTransform(0.4,12.1,1,1,0,0,0,-2,39.1);
 
-	this.timeline.addTween(cjs.Tween.get(this.instance).wait(6));
+	this.timeline.addTween(cjs.Tween.get(this.instance).to({y:17.1},9,cjs.Ease.get(1)).to({y:12.1},10,cjs.Ease.get(1)).wait(1).to({regX:0,regY:0,x:2.4,y:-27,startPosition:1},0).to({scaleX:1.08,scaleY:1.07},2).wait(1).to({scaleX:1,scaleY:1,startPosition:2},0).to({scaleX:0.91},3).wait(1).to({regX:2,regY:38.1,scaleX:1,x:4.4,y:11.1,startPosition:3},0).to({y:14.1},4).to({y:11.1},2).to({regY:36.1,y:9.1,startPosition:4},1).to({rotation:-10.7,x:3.4,y:-3.9},5,cjs.Ease.get(-0.99)).to({rotation:0,x:4.4,y:9.1},3,cjs.Ease.get(-1)).wait(1).to({regX:0,regY:0,x:2.4,y:-27,startPosition:5},0).wait(11));
 
 	// body
 	this.instance_1 = new lib.Body();
-	this.instance_1.setTransform(0.7,48.6);
+	this.instance_1.setTransform(-2.3,72.6,1,1,0,0,0,-3,24);
 
-	this.timeline.addTween(cjs.Tween.get(this.instance_1).wait(6));
+	this.timeline.addTween(cjs.Tween.get(this.instance_1).to({regY:24.1,scaleY:0.98,y:73.3},9,cjs.Ease.get(1)).to({regY:24,scaleY:1,y:72.6},10,cjs.Ease.get(1)).wait(1).to({regX:0,regY:0,x:0.7,y:48.6},0).wait(7).to({regX:-3,regY:13,x:-2.3,y:61.6},0).to({scaleY:0.96,y:63.2},4).to({scaleY:1,y:61.6},2).to({regX:-1,regY:14,x:-0.3,y:62.6},1).to({rotation:-3.7,y:48.6},5,cjs.Ease.get(-0.99)).to({rotation:0,y:62.6},3,cjs.Ease.get(-1)).wait(1).to({regX:0,regY:0,x:0.7,y:48.6},0).wait(11));
 
-	// arms
+	// armL
 	this.instance_2 = new lib.LeftArm();
-	this.instance_2.setTransform(44.4,24.1,1,1,0,0,180);
+	this.instance_2.setTransform(-30.3,35.1,1,1,0,0,0,15,11);
 
+	this.timeline.addTween(cjs.Tween.get(this.instance_2).to({regX:14.9,rotation:4.3,x:-30.4},9,cjs.Ease.get(1)).to({regX:15,rotation:0,x:-30.3},10,cjs.Ease.get(1)).wait(1).to({regX:0,regY:0,x:-45.3,y:24.1},0).wait(7).to({regX:20.9,regY:13,x:-24.4,y:37.1},0).to({rotation:14.2},4).to({rotation:0},2).to({regX:16,regY:11,x:-29.3,y:35.1},1).to({rotation:-30.4,x:-26.4,y:23.1},5,cjs.Ease.get(-0.99)).to({rotation:0,x:-29.3,y:35.1},3,cjs.Ease.get(-1)).wait(1).to({regX:0,regY:0,x:-45.3,y:24.1},0).wait(11));
+
+	// armR
 	this.instance_3 = new lib.LeftArm();
-	this.instance_3.setTransform(-45.3,24.1);
+	this.instance_3.setTransform(28.4,31.1,1,1,0,0,180,16,7);
 
-	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.instance_3,p:{skewX:0,skewY:0,x:-45.3,y:24.1}},{t:this.instance_2,p:{rotation:0,skewY:180,x:44.4,y:24.1}}]}).to({state:[{t:this.instance_3,p:{skewX:152.3,skewY:-27.7,x:-38.5,y:44.7}},{t:this.instance_2,p:{rotation:-160.8,skewY:0,x:34.7,y:42.2}}]},5).wait(1));
+	this.timeline.addTween(cjs.Tween.get(this.instance_3).to({skewX:-6.5,skewY:173.5},9,cjs.Ease.get(1)).to({skewX:0,skewY:180},10,cjs.Ease.get(1)).wait(1).to({regX:0,regY:0,x:44.4,y:24.1},0).wait(7).to({regX:18.9,regY:10,x:26.5,y:29.1},0).to({skewX:-11.7,skewY:168.3},4).to({skewX:0,skewY:180},2).to({regX:16,regY:14,x:28.4,y:38.1},1).to({regX:15.9,scaleX:1.33,scaleY:1.2,skewX:-22.2,skewY:157.8,y:22.2},5,cjs.Ease.get(-0.99)).to({regX:16,scaleX:1,scaleY:1,skewX:0,skewY:180,y:38.1},3,cjs.Ease.get(-1)).wait(1).to({regX:0,regY:0,x:44.4,y:24.1},0).wait(11));
 
 }).prototype = p = new cjs.MovieClip();
 p.nominalBounds = new cjs.Rectangle(-88.1,-73,183.5,174.2);
