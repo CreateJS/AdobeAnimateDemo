@@ -2,11 +2,11 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>game2</title>
-<!-- write your code here -->
+<title>Bubblecano!</title>
 
 
-<script src="https://code.createjs.com/createjs-2015.11.26.min.js"></script>
+<!--<script src="https://code.createjs.com/createjs-2015.11.26.min.js"></script>-->
+<script src="js/createjs-2015.11.26.combined.js"></script>
 <script src="game2.js"></script>
 <script src="js/Rnd.js"></script>
 <script src="js/Collision.js"></script>
@@ -14,36 +14,50 @@
 var c = createjs;
 var canvas, stage, w, h, stageRect;
 
-var creatureSymbols = [lib.Creature, lib.Creature2];
-var title, game, hero, score= 0, scoreFld, livesMC, gameEnded, bubbleWait, introMusic;
+var score= 0, gameEnded, music, bubbleDelay, creatureDelay, rockDelay;
 var creatures, bubbles, rocks;
-var creatureDelay, rockDelay;
+var creatureSymbols = [lib.Creature, lib.Creature2];
+var title, game, hero, scoreFld, livesMC, progressBar;
 
 
 function init() {
-	var loader = new createjs.LoadQueue(false);
-	loader.installPlugin(createjs.Sound);
-	loader.addEventListener("complete", setup);
-	loader.loadManifest(lib.properties.manifest);
-}
-
-function setup() {
 	stage = new createjs.Stage(gameCanvas);
 	canvas = stage.canvas;
 	w = canvas.width;
 	h = canvas.height;
+	c.Touch.enable(stage);
+	
+	var loader = new createjs.LoadQueue(false);
+	loader.installPlugin(createjs.Sound);
+	loader.addEventListener("complete", setup);
+	loader.setMaxConnections(4);
+	loader.loadManifest(lib.properties.manifest);
+	loader.on("progress", onProgress);
+	
+	progressBar = stage.addChild(new c.Shape()).set({x:w/2, y:h/2});
+	progressBar.graphics.beginFill("#F70").rect(-w/2,-5, w, 10);
+}
+
+function onProgress(evt) {
+	progressBar.scaleX = evt.progress;
+	stage.update();
+}
+
+
+function setup() {
+	progressBar.parent.removeChild(progressBar);
 	stageRect = new c.Rectangle(0,0,w,h);
 	stageRect.pad(40,40,40,40);
 	
 	title = new lib.Title();
 	title.startBtn.on("click", function() { title.play() });
 	
-	scoreFld = new c.Text("", "bold 48pt Arial");
+	scoreFld = new c.Text("", "bold 48pt Arial", "#F70");
 	scoreFld.textAlign = "right";
 	scoreFld.x = w-20;
 	scoreFld.y = 20;
 	
-	introMusic = c.Sound.play("BubblecanoTheme_01");
+	music = c.Sound.play("BubblecanoTheme_01");
 	
 	stage.addChild(title, scoreFld);
 	stage.enableMouseOver();
@@ -53,15 +67,17 @@ function setup() {
 }
 
 function startGame() {
-	c.Tween.get(introMusic).to({volume:0}, 1000);
+	c.Tween.get(music).to({volume:0}, 1000).call(function() { this.stop(); });
+	music = c.Sound.play("BubblecanoLoop", {loop:-1, volume:0});
+	c.Tween.get(music).to({volume:1}, 3000);
 
-	score = 0;
+	scoreFld.text = score = 0;
 	gameEnded = false;
-	bubbleWait = 0;
+	bubbleDelay = 0;
 	title.parent.removeChild(title);
 	
 	game = new c.Container();
-	stage.addChild(game);
+	stage.addChildAt(game, 0);
 	
 	creatures = [];
 	rocks = [];
@@ -92,18 +108,21 @@ function startGame() {
 }
 
 function endGame() {
+	c.Tween.get(music).to({volume:0}, 500).call(function() { this.stop(); });
+	music = c.Sound.play("BubblecanoTheme_01");
+	
 	game.parent.removeChild(game);
-	stage.addChild(title);
+	stage.addChildAt(title, 0);
 	game = null;
 	title.gotoAndPlay(0);
 }
 
 function onStageClick(evt) {
-	if (bubbleWait > 0) { return; }
+	if (bubbleDelay > 0) { return; }
 	var dx = evt.stageX-hero.x, dy = evt.stageY-hero.y, a = Math.atan2(dy, dx);
 	var bubble = new lib.Bubble();
 	
-	bubbleWait = 8;
+	bubbleDelay = 8;
 	heroState("shoot");
 	bubble.set({x:hero.x, y:hero.y, velX:Math.cos(a)*20, velY:Math.sin(a)*20, offset:Rnd(1), radius:30});
 	
@@ -114,20 +133,20 @@ function onStageClick(evt) {
 function tick(evt) {
 	if (!game) { stage.update(); return; }
 	
-	var difficulty = Math.min(0.9, score / 100000);
+	var difficulty = Math.min(1, score / 100000);
 	
 	var i, creature, bubble, rock, platformRadius=130;
-	bubbleWait--;
+	bubbleDelay--;
 	
 	if (creatureDelay-- <= 0) {
 		addCreature();
-		creatureDelay = (1-difficulty)*50*Rnd(1,2)+5;
+		creatureDelay = (1.5-difficulty)*50*Rnd(1,2);
 	}
 	if (rockDelay-- <= 0) {
-		addRock();
-		if (Rnd.bit(difficulty)) { addRock(); }
-		if (Rnd.bit(difficulty)) { addRock(); }
-		rockDelay = (1-difficulty)*100*Rnd(1,3)+5;
+		for (var i=Rnd(1.1, 1.3+difficulty*3); i>0; i--) {
+			addRock();
+		}
+		rockDelay = (1.6-difficulty)*40*Rnd(1,2.5);
 	}
 	
 	// creature loop:
@@ -137,10 +156,9 @@ function tick(evt) {
 		creature.velY += 0.2;
 		creature.y += creature.velY;
 		
-		if (creature.y >= h) {
+		if (creature.y >= h-50) {
 			// landed in lava:
 			creatures.splice(i, 1);
-			creature.y = h;
 			loseLife();
 			creature.gotoAndPlay("die");
 			heroState("sad");
@@ -199,7 +217,7 @@ function tick(evt) {
 			bubble.y = creature.y;
 			bubble.gotoAndPlay("bubbled");
 			creature.gotoAndPlay("bubbled");
-			addScore(Math.round(creature.y/h*50)*10);
+			addScore(Math.round(creature.y/h*11)*100);
 		}else if (!stageRect.contains(bubble.x, bubble.y)) {
 			// out of bounds.
 			if (bubble.creature) { 
@@ -229,7 +247,7 @@ function addCreature() {
 	var Symbol = Rnd.item(creatureSymbols);
 	var creature = new Symbol();
 	var x = Rnd(w);
-	creature.set({x:x, y:-20, radius:20, velX:(w/2-x)/w*Rnd(0,20), velY:0, radius:30});
+	creature.set({x:x, y:-30, velX:(w/2-x)/w*Rnd(0,20), velY:Rnd(1,3), radius:30});
 	
 	game.addChild(creature);
 	creatures.push(creature);
@@ -238,7 +256,7 @@ function addCreature() {
 function addRock() {
 	var rock = new lib.Rock();
 	rock.gotoAndStop(Rnd(rock.totalFrames)|0);
-	rock.set({x:Rnd(w), y:Rnd(-50,-15), radius:10, velX:Rnd.sign()*Rnd(1,5), velY:25});
+	rock.set({x:Rnd(w), y:Rnd(-115,-15), radius:10, velX:Rnd.sign()*Rnd(1,5), velY:Rnd(20,30)});
 	game.addChild(rock);
 	rocks.push(rock);
 }
@@ -268,6 +286,6 @@ function playSound(id, loop) {
 
 </head>
 <body onload="init();" style="background-color:#D4D4D4;margin:0px;">
-	<canvas id="gameCanvas" width="1280" height="720" style="background-color:#FFFFFF"></canvas>
+	<canvas id="gameCanvas" width="1280" height="720" style="background-color:#2C3C4C"></canvas>
 </body>
 </html>
