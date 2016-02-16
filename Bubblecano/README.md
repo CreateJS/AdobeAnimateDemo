@@ -5,3 +5,5 @@ All assets except the sounds are licensed under MIT. Audio by [@beatlejase](http
 
 The game is hosted here:
 http://gskinner.com/playpen/AdobeAnimateDemo/bubblecano/index.html
+
+![ScreenShot](https://raw.githubusercontent.com/CreateJS/AdobeAnimateDemo/master/Bubblecano/sample.jpg)
