@@ -8,3 +8,5 @@ The game is hosted here:
 http://gskinner.com/playpen/AdobeAnimateDemo/trashdash/index.html
 
 Unfortunately, the recordings of the stream have expired.
+
+![ScreenShot](https://raw.githubusercontent.com/CreateJS/AdobeAnimateDemo/master/TrashDash/README_1.jpg)
