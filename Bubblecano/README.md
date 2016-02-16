@@ -7,3 +7,8 @@ The game is hosted here:
 http://gskinner.com/playpen/AdobeAnimateDemo/bubblecano/index.html
 
 ![ScreenShot](https://raw.githubusercontent.com/CreateJS/AdobeAnimateDemo/master/Bubblecano/README_1.jpg)
+
+Stream recordings (these will expire after 60 days):
+* [day 1](http://www.twitch.tv/adobe/v/42789933?t=03h03m37s)
+* [day 2](http://www.twitch.tv/adobe/v/43264835)
+* [day 3](http://www.twitch.tv/adobe/v/43561636)
