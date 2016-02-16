@@ -1,5 +1,5 @@
 # AdobeAnimateDemo
-Mini games with visual assets created in Adobe Animate CC by [@gskinner](https://twitter.com/gskinner) and [@mike_gaboury](https://twitter.com/mike_gaboury) in 6 hours for the Adobe Creative Twitch stream.
+Mini games with visual assets created in Adobe Animate CC by [@gskinner](https://twitter.com/gskinner) and [@mike_gaboury](https://twitter.com/mike_gaboury) in 6 hours for the  [Adobe Creative Twitch stream](http://www.twitch.tv/adobe).
 
 All assets except the sounds are licensed under MIT.
 
