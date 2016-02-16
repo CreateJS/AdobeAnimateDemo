@@ -139,13 +139,13 @@ function tick(evt) {
 	
 	if (creatureDelay-- <= 0) {
 		addCreature();
-		creatureDelay = (1.5-difficulty)*50*Rnd(1,2);
+		creatureDelay = (1.5-difficulty)*40*Rnd(1,2);
 	}
 	if (rockDelay-- <= 0) {
-		for (var i=Rnd(1.1, 1.3+difficulty*3); i>0; i--) {
+		for (var i=Rnd(1.1, 1.5+difficulty*3.4); i>0; i--) {
 			addRock();
 		}
-		rockDelay = (1.6-difficulty)*40*Rnd(1,2.5);
+		rockDelay = (1.6-difficulty)*30*Rnd(1,2.5);
 	}
 	
 	// creature loop:
@@ -255,7 +255,7 @@ function addCreature() {
 function addRock() {
 	var rock = new lib.Rock();
 	rock.gotoAndStop(Rnd(rock.totalFrames)|0);
-	rock.set({x:Rnd(w), y:Rnd(-115,-15), radius:10, velX:Rnd.sign()*Rnd(1,5), velY:Rnd(20,30)});
+	rock.set({x:Rnd(w), y:Rnd(-115,-15), radius:20, velX:Rnd.sign()*Rnd(1,5), velY:Rnd(20,30)});
 	game.addChild(rock);
 	rocks.push(rock);
 }
